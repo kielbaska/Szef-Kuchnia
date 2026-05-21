@@ -1,4 +1,4 @@
-const CACHE_NAME = "chef-mode-v3";
+﻿const CACHE_NAME = "chef-mode-v10-final";
 const ASSETS = [
   "/",
   "/index.html",
