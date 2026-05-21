@@ -1,0 +1,22 @@
+﻿<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Brak internetu</title>
+  <style>
+    body { margin:0; min-height:100vh; display:grid; place-items:center; background:#121944; color:#fff; font-family:Arial,sans-serif; }
+    .box { width:min(92vw,420px); background:#1f2b78; border:1px solid #6f86ff; border-radius:16px; padding:20px; }
+    h1 { margin:0 0 10px; font-size:1.2rem; }
+    p { margin:0 0 14px; line-height:1.4; }
+    button { width:100%; border:0; border-radius:999px; padding:12px; font-weight:700; background:#f3c851; color:#1d2147; }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h1>Brak połączenia z internetem</h1>
+    <p>Aplikacja potrzebuje sieci, żeby pobrać najnowsze przepisy z Twojej strony.</p>
+    <button onclick="location.reload()">Spróbuj ponownie</button>
+  </div>
+</body>
+</html>
