@@ -1,4 +1,37 @@
-﻿const TARGET_COUNT = 1500;
+const ACCESS_CODE = "7342";
+const ACCESS_KEY = "chef-access-granted";
+
+const accessGate = document.getElementById("accessGate");
+const accessForm = document.getElementById("accessForm");
+const accessCode = document.getElementById("accessCode");
+const accessError = document.getElementById("accessError");
+
+function unlockApp() {
+  localStorage.setItem(ACCESS_KEY, "true");
+  accessGate.classList.add("hidden");
+  accessGate.setAttribute("aria-hidden", "true");
+}
+
+if (localStorage.getItem(ACCESS_KEY) === "true") {
+  unlockApp();
+} else {
+  accessCode.focus();
+}
+
+accessForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+
+  if (accessCode.value.trim() === ACCESS_CODE) {
+    unlockApp();
+    return;
+  }
+
+  accessError.textContent = "Zły kod. Spróbuj jeszcze raz.";
+  accessCode.value = "";
+  accessCode.focus();
+});
+
+const TARGET_COUNT = 1500;
 
 const mealConfig = {
   breakfast: {
@@ -92,6 +125,63 @@ const mealConfig = {
               "Kiedy spód się zetnie, a góra będzie lekko wilgotna, dodaj farsz.",
               `Złóż omlet na pół, dosmaż 30-40 sekund i posyp ${herbs}.`
             ],
+            tip: this.tip
+          };
+        }
+      },
+      {
+        kind: "Tosty",
+        style: "Chrupiące śniadanie",
+        times: ["8 minut", "10 minut", "12 minut"],
+        filling: ["serem i szynką", "mozzarellą i pomidorem", "jajkiem i szczypiorkiem", "kurczakiem i serem"],
+        sauce: ["ketchupem", "sosem czosnkowym", "pesto", "musztardą miodową"],
+        side: ["rukolą", "ogórkiem", "pomidorkami", "papryką"],
+        tip: "Nie dawaj za dużo sosu do środka, bo tost straci chrupkość.",
+        make(filling, sauce, side) {
+          return {
+            name: `Tosty z ${filling} i ${sauce}`,
+            style: this.style,
+            difficulty: "Łatwy",
+            ingredients: ["4 kromki pieczywa tostowego", `farsz: ${filling}`, `sos: ${sauce}`, `dodatek: ${side}`, "1 łyżeczka masła", "sól i pieprz"],
+            steps: ["Posmaruj pieczywo cienko masłem od zewnątrz.", `Dodaj ${filling}, odrobinę ${sauce} i złóż tosty.`, "Zapiekaj 4-6 minut w opiekaczu lub na patelni.", `Podaj z ${side} i dopraw do smaku.`],
+            tip: this.tip
+          };
+        }
+      },
+      {
+        kind: "Kanapki",
+        style: "Szybki klasyk",
+        times: ["5 minut", "7 minut", "10 minut"],
+        base: ["chlebie żytnim", "bagietce", "bułce grahamce", "pieczywie tostowym"],
+        topping: ["jajkiem", "twarożkiem", "szynką", "pastą z tuńczyka"],
+        extra: ["ogórkiem", "pomidorem", "rzodkiewką", "sałatą"],
+        tip: "Najpierw cienka warstwa masła albo serka, wtedy pieczywo nie namaka.",
+        make(base, topping, extra) {
+          return {
+            name: `Kanapki na ${base} z ${topping}`,
+            style: this.style,
+            difficulty: "Łatwy",
+            ingredients: [`baza: ${base}`, `główny dodatek: ${topping}`, `warzywo: ${extra}`, "masło lub serek", "sól i pieprz", "ulubione zioła"],
+            steps: ["Przygotuj pieczywo i posmaruj cienką warstwą masła albo serka.", `Ułóż ${topping} oraz ${extra}.`, "Dopraw solą, pieprzem i ziołami.", "Podaj od razu, najlepiej z czymś świeżym do chrupania."],
+            tip: this.tip
+          };
+        }
+      },
+      {
+        kind: "Placuszki",
+        style: "Weekendowy vibe",
+        times: ["15 minut", "18 minut", "20 minut"],
+        base: ["bananowe", "jogurtowe", "owsiane", "twarogowe"],
+        topping: ["miodem", "jogurtem", "owocami", "masłem orzechowym"],
+        spice: ["cynamonem", "wanilią", "kakao", "skórką cytrynową"],
+        tip: "Smaż małe placuszki na średnim ogniu, wtedy nie spalą się z zewnątrz.",
+        make(base, topping, spice) {
+          return {
+            name: `Placuszki ${base} z ${topping}`,
+            style: this.style,
+            difficulty: "Łatwy",
+            ingredients: [`typ: ${base}`, "2 jajka", "120 g mąki lub płatków", `aromat: ${spice}`, `dodatek: ${topping}`, "szczypta soli"],
+            steps: ["Wymieszaj składniki na gęste ciasto.", `Dodaj ${spice} i odstaw masę na 2 minuty.`, "Smaż małe porcje po 2 minuty z każdej strony.", `Podaj ciepłe z ${topping}.`],
             tip: this.tip
           };
         }
@@ -196,6 +286,63 @@ const mealConfig = {
             tip: this.tip
           };
         }
+      },
+      {
+        kind: "Ryż z patelni",
+        style: "Szybki obiad",
+        times: ["20 minut", "25 minut", "30 minut"],
+        protein: ["kurczakiem", "jajkiem", "tofu", "kiełbasą"],
+        veg: ["groszkiem i marchewką", "papryką i cebulą", "brokułem", "cukinią"],
+        sauce: ["sosem sojowym", "sosem słodko-kwaśnym", "czosnkiem i masłem", "sosem chili"],
+        tip: "Najlepiej użyć ryżu z poprzedniego dnia, bo nie robi się papka.",
+        make(protein, veg, sauce) {
+          return {
+            name: `Ryż z patelni z ${protein} i ${veg}`,
+            style: this.style,
+            difficulty: "Łatwy",
+            ingredients: ["300 g ugotowanego ryżu", `białko: ${protein}`, `warzywa: ${veg}`, `sos: ${sauce}`, "1 łyżka oleju", "pieprz"],
+            steps: ["Rozgrzej mocno patelnię z olejem.", `Podsmaż ${protein}, potem dorzuć ${veg}.`, `Dodaj ryż i ${sauce}, smaż 3-4 minuty.`, "Wymieszaj mocno i dopraw do smaku."],
+            tip: this.tip
+          };
+        }
+      },
+      {
+        kind: "Zupa",
+        style: "Domowy obiad",
+        times: ["25 minut", "30 minut", "40 minut"],
+        main: ["pomidorowa", "jarzynowa", "ogórkowa", "koperkowa"],
+        add: ["ryżem", "makaronem", "ziemniakami", "grzankami"],
+        finish: ["śmietaną", "natką", "koperkiem", "pieprzem cytrynowym"],
+        tip: "Doprawiaj pod koniec, bo zupa po gotowaniu robi się mocniejsza w smaku.",
+        make(main, add, finish) {
+          return {
+            name: `Zupa ${main} z ${add}`,
+            style: this.style,
+            difficulty: "Łatwy",
+            ingredients: [`baza: ${main}`, `dodatek: ${add}`, `wykończenie: ${finish}`, "700 ml bulionu", "warzywa", "sól i pieprz"],
+            steps: ["Zagotuj bulion i dodaj warzywa.", `Dodaj bazę na zupę ${main} oraz ${add}.`, "Gotuj do miękkości 15-25 minut.", `Wykończ ${finish} i dopraw.`],
+            tip: this.tip
+          };
+        }
+      },
+      {
+        kind: "Zapiekanka",
+        style: "Comfort food",
+        times: ["35 minut", "40 minut", "45 minut"],
+        base: ["makaronowa", "ziemniaczana", "ryżowa", "warzywna"],
+        protein: ["kurczakiem", "szynką", "tuńczykiem", "tofu"],
+        cheese: ["mozzarellą", "cheddarem", "fetą", "parmezanem"],
+        tip: "Ostatnie 5 minut piecz bez przykrycia, żeby góra się przyrumieniła.",
+        make(base, protein, cheese) {
+          return {
+            name: `Zapiekanka ${base} z ${protein}`,
+            style: this.style,
+            difficulty: "Średni",
+            ingredients: [`baza: ${base}`, `dodatek: ${protein}`, `ser: ${cheese}`, "sos pomidorowy lub śmietanowy", "warzywa", "przyprawy"],
+            steps: ["Przygotuj bazę i przełóż do naczynia.", `Dodaj ${protein}, warzywa oraz sos.`, `Posyp ${cheese}.`, "Piecz 20-25 minut w 190°C."],
+            tip: this.tip
+          };
+        }
       }
     ]
   },
@@ -295,6 +442,63 @@ const mealConfig = {
             tip: this.tip
           };
         }
+      },
+      {
+        kind: "Quesadilla",
+        style: "Szybka kolacja",
+        times: ["12 minut", "15 minut", "18 minut"],
+        protein: ["kurczakiem", "serem", "fasolą", "jajkiem"],
+        veg: ["papryką", "kukurydzą", "cebulą", "pomidorami"],
+        dip: ["salsą", "sosem jogurtowym", "guacamole", "sosem czosnkowym"],
+        tip: "Smaż na suchej patelni, wtedy tortilla będzie chrupiąca.",
+        make(protein, veg, dip) {
+          return {
+            name: `Quesadilla z ${protein} i ${veg}`,
+            style: this.style,
+            difficulty: "Łatwy",
+            ingredients: ["2 tortille", `nadzienie: ${protein}`, `warzywo: ${veg}`, `dip: ${dip}`, "ser", "przyprawy"],
+            steps: ["Na tortilli ułóż ser, nadzienie i warzywa.", "Przykryj drugą tortillą albo złóż na pół.", "Smaż 2-3 minuty z każdej strony.", `Pokrój i podaj z ${dip}.`],
+            tip: this.tip
+          };
+        }
+      },
+      {
+        kind: "Pasta kanapkowa",
+        style: "Kolacja do chleba",
+        times: ["8 minut", "10 minut", "12 minut"],
+        base: ["jajeczna", "tuńczykowa", "twarogowa", "z ciecierzycy"],
+        add: ["szczypiorkiem", "ogórkiem", "papryką", "rzodkiewką"],
+        serve: ["chlebem", "grzankami", "tortillą", "pieczywem chrupkim"],
+        tip: "Rozgnieć pastę widelcem, nie blenduj na gładko — będzie lepsza tekstura.",
+        make(base, add, serve) {
+          return {
+            name: `Pasta ${base} z ${add}`,
+            style: this.style,
+            difficulty: "Łatwy",
+            ingredients: [`baza: ${base}`, `dodatek: ${add}`, `podanie: ${serve}`, "łyżka jogurtu lub majonezu", "sól", "pieprz"],
+            steps: ["Rozgnieć bazę pasty widelcem.", `Dodaj ${add}, jogurt lub majonez i przyprawy.`, "Wymieszaj do połączenia.", `Podaj z ${serve}.`],
+            tip: this.tip
+          };
+        }
+      },
+      {
+        kind: "Pieczone ziemniaki",
+        style: "Prosta kolacja",
+        times: ["30 minut", "35 minut", "40 minut"],
+        topping: ["twarogiem", "tuńczykiem", "kurczakiem", "fasolą"],
+        sauce: ["sosem czosnkowym", "jogurtem", "salsą", "masłem ziołowym"],
+        herbs: ["koperkiem", "szczypiorkiem", "natką", "oregano"],
+        tip: "Przekrój ziemniaki na mniejsze kawałki, będą gotowe dużo szybciej.",
+        make(topping, sauce, herbs) {
+          return {
+            name: `Pieczone ziemniaki z ${topping}`,
+            style: this.style,
+            difficulty: "Łatwy",
+            ingredients: ["4 ziemniaki", `dodatek: ${topping}`, `sos: ${sauce}`, `zioła: ${herbs}`, "oliwa", "sól"],
+            steps: ["Pokrój ziemniaki, wymieszaj z oliwą i solą.", "Piecz 25-35 minut w 200°C.", `Dodaj ${topping} i ${sauce}.`, `Posyp ${herbs} i podaj gorące.`],
+            tip: this.tip
+          };
+        }
       }
     ]
   }
@@ -328,68 +532,22 @@ function buildMeals(type, seed) {
   const created = [];
 
   cfg.templates.forEach((tpl) => {
-    if (type === "breakfast" && tpl.kind === "Jajecznica") {
-      tpl.veg.forEach((veg) => tpl.finish.forEach((finish) => tpl.base.forEach((base) => {
-        const meal = tpl.make(veg, finish, base);
+    const optionKeys = Object.keys(tpl).filter((key) => (
+      Array.isArray(tpl[key]) && key !== "times"
+    ));
+
+    function createVariants(depth, picked) {
+      if (depth === optionKeys.length) {
+        const meal = tpl.make(...picked);
         tpl.times.forEach((time) => created.push({ ...meal, time }));
-      })));
+        return;
+      }
+
+      const key = optionKeys[depth];
+      tpl[key].forEach((value) => createVariants(depth + 1, [...picked, value]));
     }
 
-    if (type === "breakfast" && tpl.kind === "Owsianka") {
-      tpl.fruit.forEach((fruit) => tpl.crunch.forEach((crunch) => tpl.spice.forEach((spice) => {
-        const meal = tpl.make(fruit, crunch, spice);
-        tpl.times.forEach((time) => created.push({ ...meal, time }));
-      })));
-    }
-
-    if (type === "breakfast" && tpl.kind === "Omlet") {
-      tpl.filling.forEach((filling) => tpl.herbs.forEach((herbs) => {
-        const meal = tpl.make(filling, herbs);
-        tpl.times.forEach((time) => created.push({ ...meal, time }));
-      }));
-    }
-
-    if (type === "lunch" && tpl.kind === "Bowl") {
-      tpl.protein.forEach((protein) => tpl.base.forEach((base) => tpl.veg.forEach((veg) => tpl.sauce.forEach((sauce) => {
-        const meal = tpl.make(protein, base, veg, sauce);
-        tpl.times.forEach((time) => created.push({ ...meal, time }));
-      }))));
-    }
-
-    if (type === "lunch" && tpl.kind === "Makaron") {
-      tpl.pasta.forEach((pasta) => tpl.baseSauce.forEach((baseSauce) => tpl.protein.forEach((protein) => tpl.veg.forEach((veg) => {
-        const meal = tpl.make(pasta, baseSauce, protein, veg);
-        tpl.times.forEach((time) => created.push({ ...meal, time }));
-      }))));
-    }
-
-    if (type === "lunch" && tpl.kind === "Curry") {
-      tpl.protein.forEach((protein) => tpl.veg.forEach((veg) => tpl.base.forEach((base) => tpl.level.forEach((level) => {
-        const meal = tpl.make(protein, veg, base, level);
-        tpl.times.forEach((time) => created.push({ ...meal, time }));
-      }))));
-    }
-
-    if (type === "dinner" && tpl.kind === "Sałatka") {
-      tpl.protein.forEach((protein) => tpl.greens.forEach((greens) => tpl.veg.forEach((veg) => tpl.dressing.forEach((dressing) => {
-        const meal = tpl.make(protein, greens, veg, dressing);
-        tpl.times.forEach((time) => created.push({ ...meal, time }));
-      }))));
-    }
-
-    if (type === "dinner" && tpl.kind === "Krem") {
-      tpl.main.forEach((main) => tpl.finish.forEach((finish) => tpl.herb.forEach((herb) => {
-        const meal = tpl.make(main, finish, herb);
-        tpl.times.forEach((time) => created.push({ ...meal, time }));
-      })));
-    }
-
-    if (type === "dinner" && tpl.kind === "Wrap") {
-      tpl.protein.forEach((protein) => tpl.spread.forEach((spread) => tpl.veg.forEach((veg) => {
-        const meal = tpl.make(protein, spread, veg);
-        tpl.times.forEach((time) => created.push({ ...meal, time }));
-      })));
-    }
+    createVariants(0, []);
   });
 
   const unique = [];

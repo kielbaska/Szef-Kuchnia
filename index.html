@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="pl">
 <head>
   <meta charset="UTF-8" />
@@ -17,6 +17,17 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+
+  <div class="access-gate" id="accessGate" role="dialog" aria-modal="true" aria-labelledby="gateTitle">
+    <form class="access-card" id="accessForm">
+      <p class="eyebrow">DOSTĘP DO APLIKACJI</p>
+      <h2 id="gateTitle">Wpisz kod dostępu</h2>
+      <p class="access-lead">Kod wpisujesz tylko raz na tym urządzeniu.</p>
+      <input id="accessCode" class="access-input" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="••••" autocomplete="one-time-code" aria-label="Kod dostępu" />
+      <p class="access-error" id="accessError" aria-live="polite"></p>
+      <button class="access-button" type="submit">Wejdź</button>
+    </form>
+  </div>
   <div class="ambient ambient-a"></div>
   <div class="ambient ambient-b"></div>
   <div class="ambient ambient-c"></div>
