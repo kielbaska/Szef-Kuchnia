@@ -1,0 +1,55 @@
+﻿<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Szef Kuchni</title>
+  <meta name="theme-color" content="#4050c8" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Szef Kuchni" />
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Sora:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="ambient ambient-a"></div>
+  <div class="ambient ambient-b"></div>
+  <div class="ambient ambient-c"></div>
+
+  <main class="scene">
+    <div class="badge badge-top">Creative Food Engine</div>
+    <div class="badge badge-bottom">Well-fed Design</div>
+
+    <section class="phone-shell">
+      <button id="themeToggle" class="theme-toggle" type="button" aria-label="Przełącz tryb ciemny">Dark mode</button>
+
+      <header class="hero">
+        <p class="eyebrow">GENERATOR POSIŁKÓW</p>
+        <h1>Szef Kuchni</h1>
+        <p class="lead">Klikasz raz. Wpada konkretny pomysł na posiłek w stylu premium.</p>
+        <button id="drawBtn">Losuj obiad</button>
+      </header>
+
+      <div class="meal-type-picker">
+        <span>Wybierz porę dnia:</span>
+        <div class="segment-control" id="mealType" role="tablist" aria-label="Typ posiłku">
+          <button type="button" class="segment active" data-type="breakfast">Śniadanie</button>
+          <button type="button" class="segment" data-type="lunch">Obiad</button>
+          <button type="button" class="segment" data-type="dinner">Kolacja</button>
+        </div>
+      </div>
+
+      <section class="card" id="result" aria-live="polite">
+        <p>Kliknij „Losuj obiad”, a Szef wyda werdykt.</p>
+      </section>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

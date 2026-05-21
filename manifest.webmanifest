@@ -1,0 +1,25 @@
+﻿{
+  "name": "Szef Kuchni",
+  "short_name": "Szef Kuchni",
+  "description": "Generator sensownych pomysłów na śniadanie, obiad i kolację.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#121944",
+  "theme_color": "#4050c8",
+  "lang": "pl-PL",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
